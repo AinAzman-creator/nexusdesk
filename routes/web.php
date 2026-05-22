@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\TicketController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -23,5 +24,17 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/tickets/create', [TicketController::class, 'create'])
+    ->middleware(['auth'])
+    ->name('tickets.create');
+
+Route::post('/tickets', [TicketController::class, 'store'])
+    ->middleware(['auth'])
+    ->name('tickets.store');
+
+Route::get('/tickets', [TicketController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('tickets.index');
 
 require __DIR__.'/auth.php';
